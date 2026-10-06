@@ -24,6 +24,8 @@ TRADE_POOL = 10          # top players per team considered in trade search
 MAX_TRADES = 12
 MAX_TRADES_PER_TEAM = 3
 FA_POOL = 150
+KEEPERS_FILE = "keepers.txt"   # one player name per line: never suggested as drops
+HOT_GAME = 18                   # last-game points that make a player undroppable this week
 
 # How much an injury designation dents rest-of-season and this-week value
 ROS_MULT = {"QUESTIONABLE": 0.97, "DOUBTFUL": 0.85, "OUT": 0.8,
@@ -133,6 +135,17 @@ def fetch_espn(league_id, year, s2, swid):
             "pf": r1(t.points_for), "standing": t.standing,
             "raw": t.roster,
         })
+    weekly = {}
+    ids = [p.playerId for t in league.teams for p in t.roster]
+    for i in range(0, len(ids), 50):
+        try:
+            res = league.player_info(playerId=ids[i:i + 50]) or []
+            for p in (res if isinstance(res, list) else [res]):
+                weekly[str(p.playerId)] = {
+                    w: s.get("points", 0) for w, s in p.stats.items()
+                    if isinstance(w, int) and 0 < w <= week and "points" in s}
+        except Exception as e:
+            log(f"Weekly stats pull failed: {e}")
     fas = []
     try:
         fas = league.free_agents(size=FA_POOL)
@@ -152,7 +165,7 @@ def fetch_espn(league_id, year, s2, swid):
     except Exception as e:
         log(f"Matchup pull failed: {e}")
     return {"league": league, "week": week, "slots": slots, "bench": bench,
-            "ppr": rec_pts, "teams": teams, "fas": fas, "matchup": matchup,
+            "ppr": rec_pts, "teams": teams, "weekly": weekly, "fas": fas, "matchup": matchup,
             "name": league.settings.name, "team_count": len(league.teams)}
 
 
@@ -209,13 +222,23 @@ def fetch_fantasycalc(team_count, ppr, superflex):
 
 
 # ---------------------------------------------------------------- player model
-def build_player(p, week, fc_espn, fc_name, sleeper, owner):
+def build_player(p, week, fc_espn, fc_name, sleeper, owner, weekly=None):
     status = (p.injuryStatus or "ACTIVE").upper()
     wk = p.stats.get(week, {}) or {}
     week_proj = wk.get("projected_points", 0) or 0
     proj_avg = p.projected_avg_points or 0
     avg = p.avg_points or 0
-    ros = 0.65 * proj_avg + 0.35 * avg if (proj_avg and avg) else (proj_avg or avg or week_proj)
+    games = [pts for w, pts in sorted((weekly or {}).items())
+             if w < week or (w == week and pts)]
+    last3 = games[-3:]
+    recent = sum(last3) / len(last3) if last3 else 0
+    last = games[-1] if games else 0
+    if proj_avg and avg and last3:
+        ros = 0.5 * proj_avg + 0.25 * avg + 0.25 * recent
+    elif proj_avg and avg:
+        ros = 0.65 * proj_avg + 0.35 * avg
+    else:
+        ros = proj_avg or avg or week_proj
     eid = str(p.playerId)
     fc = fc_espn.get(eid) or fc_name.get((norm(p.name), p.position))
     sl = sleeper["by_espn"].get(eid, {})
@@ -230,6 +253,7 @@ def build_player(p, week, fc_espn, fc_name, sleeper, owner):
         "week": r1(0 if status in WEEK_OUT else week_proj * WEEK_MULT.get(status, 1)),
         "ros": r1(ros * ROS_MULT.get(status, 1)),
         "avg": r1(avg), "proj_avg": r1(proj_avg),
+        "recent": r1(recent), "last": r1(last), "games": [r1(g) for g in last3],
         "fc": fc["value"] if fc else None,
         "trend30": fc["trend30"] if fc else 0,
         "pos_rank": fc["pos_rank"] if fc else None,
@@ -261,6 +285,44 @@ def fill_values(all_players):
             p["value"] = int(k * max(p["ros"], 0) ** 1.5)
 
 
+# ---------------------------------------------------------------- protections
+def load_keepers():
+    try:
+        with open(KEEPERS_FILE) as f:
+            return {norm(line) for line in f if line.strip() and not line.startswith("#")}
+    except FileNotFoundError:
+        return set()
+
+
+def tag_protections(me, slots, keepers):
+    """Mark handcuffs, keepers, and hot players so they are never suggested as drops."""
+    rbs = sorted((p for p in me if p["pos"] == "RB"), key=lambda p: -p["value"])
+    core_rbs = rbs[:3]
+    for p in me:
+        p["protect"] = None
+        if norm(p["name"]) in keepers:
+            p["protect"] = "Keeper list"
+        elif p["pos"] == "RB" and any(c["id"] != p["id"] and c["nfl"] == p["nfl"]
+                                      and c["value"] > p["value"] for c in core_rbs):
+            starter = next(c for c in core_rbs if c["nfl"] == p["nfl"] and c["id"] != p["id"])
+            p["protect"] = f"Handcuff to {starter['name']}"
+        elif p["last"] >= HOT_GAME:
+            p["protect"] = f"Scored {p['last']} last game"
+
+
+def keep_score(p):
+    """Value adjusted for recent form, so a hot player isn't cut on stale market value."""
+    base = max(p["ros"], 5)
+    form = max(-0.3, min(0.5, (p["recent"] - base) / base)) if p["games"] else 0
+    return p["value"] * (1 + form)
+
+
+def drop_candidates(me, slots):
+    starters = {p["id"] for _, p in optimal_lineup(me, slots, "ros")[1]}
+    bench = [p for p in me if p["id"] not in starters and p["slot"] != "IR" and not p.get("protect")]
+    return sorted(bench, key=keep_score)
+
+
 # ---------------------------------------------------------------- recommendations
 def lineup_moves(me, slots):
     pool = [p for p in me if p["slot"] != "IR"]
@@ -288,15 +350,20 @@ def lineup_moves(me, slots):
 
 
 def waiver_targets(me, fas, slots):
-    starters = {p["id"] for _, p in optimal_lineup(me, slots, "ros")[1]}
-    bench = [p for p in me if p["id"] not in starters and p["slot"] != "IR"]
-    drop = min(bench, key=lambda p: p["value"]) if bench else None
+    drops = drop_candidates(me, slots)
+    drop = drops[0] if drops else None
     base_ros = lineup_score(me, slots, "ros")
     base_wk = lineup_score([p for p in me if p["slot"] != "IR"], slots, "week")
     out = []
     for fa in fas:
         if fa["status"] in WEEK_OUT and fa["ros"] < 8:
             continue
+        drop = drops[0] if drops else None
+        if fa["pos"] in ("K", "D/ST"):   # streaming a K or D/ST: swap out your current one
+            same = sorted((p for p in me if p["pos"] == fa["pos"] and not p.get("protect")
+                           and not p["locked"]), key=lambda p: p["week"])
+            if same:
+                drop = same[0]
         new = [p for p in me if not drop or p["id"] != drop["id"]] + [fa]
         ros_gain = lineup_score(new, slots, "ros") - base_ros
         wk_gain = lineup_score([p for p in new if p["slot"] != "IR"], slots, "week") - base_wk
@@ -304,7 +371,7 @@ def waiver_targets(me, fas, slots):
             continue
         if ros_gain >= 0.3 or wk_gain >= 2 or (fa["adds48"] > 5000 and fa["value"] > (drop or {}).get("value", 0)):
             kind = "Stream this week" if ros_gain < 0.3 else "Add"
-            out.append({"player": fa, "drop": drop, "ros_gain": round(ros_gain, 2),
+            out.append({"player": fa, "drop": drop, "alt_drops": drops[1:3], "ros_gain": round(ros_gain, 2),
                         "week_gain": round(wk_gain, 1), "kind": kind,
                         "score": ros_gain + 0.3 * wk_gain + fa["adds48"] / 50000})
     out.sort(key=lambda x: -x["score"])
@@ -402,8 +469,12 @@ def fmt(p):
             f"val {p['value']}"]
     if p["status"] not in ("ACTIVE", "NORMAL"):
         bits.append(f"STATUS {p['status']}" + (f" - {p['injury']}" if p["injury"] else ""))
+    if p.get("games"):
+        bits.append("last games " + "/".join(str(g) for g in p["games"]))
     if p["bye"]:
         bits.append("BYE")
+    if p.get("protect"):
+        bits.append(f"PROTECTED: {p['protect']}")
     return " | ".join(bits)
 
 
@@ -481,7 +552,8 @@ def main():
 
     teams, all_players, seen = [], [], set()
     for t in espn["teams"]:
-        players = [build_player(p, week, fc_espn, fc_name, sleeper, t["name"]) for p in t["raw"]]
+        players = [build_player(p, week, fc_espn, fc_name, sleeper, t["name"],
+                                espn["weekly"].get(str(p.playerId))) for p in t["raw"]]
         seen.update(p["id"] for p in players)
         all_players += players
         teams.append({k: v for k, v in t.items() if k != "raw"} | {"players": players})
@@ -497,6 +569,7 @@ def main():
     if not me_team:
         sys.exit(f"Team '{MY_TEAM}' not found. Teams in league: {[t['name'] for t in teams]}")
 
+    tag_protections(me_team["players"], slots, load_keepers())
     today = now.date().isoformat()
     hist = load_history()
     changes = update_history(hist, all_players + fas, today)
