@@ -109,7 +109,7 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 const sign=(n,d=1)=>(n>0?"+":"")+Number(n).toFixed(d);
 const STATUS={QUESTIONABLE:["Q","t-warn"],DOUBTFUL:["D","t-bad"],OUT:["Out","t-bad"],INJURY_RESERVE:["IR","t-bad"],IR:["IR","t-bad"],SUSPENSION:["Susp","t-bad"]};
 function tags(p){let h="";const s=STATUS[p.status];if(s)h+=`<span class="tag ${s[1]}">${s[0]}</span>`;
-  if(p.bye)h+=`<span class="tag t-warn">Bye</span>`;if(p.locked)h+=`<span class="tag">Locked</span>`;return h}
+  if(p.bye)h+=`<span class="tag t-warn">Bye</span>`;if(p.protect)h+=`<span class="tag t-good" title="${esc(p.protect)}">Protected</span>`;if(p.locked)h+=`<span class="tag">Locked</span>`;return h}
 const pline=p=>`<span class="pname">${esc(p.name)}</span>${tags(p)} <span class="meta">${esc(p.pos)} · ${esc(p.nfl)}</span>`;
 
 function optimal(players,key){
@@ -152,7 +152,10 @@ function today(){const L=D.lineup;let h=`<h2>This week</h2><p class="lede">Lineu
 
 function waivers(){let h=`<h2>Waivers</h2><p class="lede">Ranked by how much each player improves your best starting lineup. "Stream" means a this-week play only. Adds 48h is Sleeper's league-wide add count.</p><div class="block">`;
   if(!D.waivers.length)h+=`<p class="empty">No free agent improves your lineup right now.</p>`;
-  D.waivers.forEach(w=>{h+=`<div class="row"><div>${w.kind==="Add"?"Add":"Stream"} ${pline(w.player)}<div class="meta">ROS ${w.player.ros}/g · this week ${w.player.week} · owned ${w.player.owned}% · adds 48h ${w.player.adds48.toLocaleString()}</div>${w.drop?`<div class="meta">Drop ${esc(w.drop.name)} (${esc(w.drop.pos)})</div>`:""}</div><div><span class="big t-good">${sign(w.ros_gain)}</span> <span class="meta">ppg ROS</span><br><span class="meta">${sign(w.week_gain)} this week</span></div></div>`});
+  D.waivers.forEach(w=>{h+=`<div class="row"><div>${w.kind==="Add"?"Add":"Stream"} ${pline(w.player)}<div class="meta">ROS ${w.player.ros}/g · this week ${w.player.week} · owned ${w.player.owned}% · adds 48h ${w.player.adds48.toLocaleString()}</div>${w.drop?`<div class="meta">Drop ${esc(w.drop.name)} (${esc(w.drop.pos)}, last games ${esc((w.drop.games||[]).join(" / ")||"n/a")})${w.alt_drops&&w.alt_drops.length?" · or "+w.alt_drops.map(p=>esc(p.name)).join(", "):""}</div>`:""}</div><div><span class="big t-good">${sign(w.ros_gain)}</span> <span class="meta">ppg ROS</span><br><span class="meta">${sign(w.week_gain)} this week</span></div></div>`});
+  const me=D.teams.find(t=>t.id===D.meta.team_id);const prot=me.players.filter(p=>p.protect);
+  if(prot.length){h+=`</div><div class="block"><strong>Never suggested as drops</strong>`;
+    prot.forEach(p=>h+=`<div class="row"><div>${pline(p)}</div><div class="meta">${esc(p.protect)}</div></div>`)}
   $("#waivers").innerHTML=h+`</div>`}
 
 function names(a){return a.map(p=>esc(p.name)).join(", ")}
