@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Front Office</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4EF; --surface:#FFFFFF; --ink:#16261C; --muted:#5E6E63; --line:#D6DCD3;
+  --field:#1F3D2B; --post:#E3B23C; --good:#2F7A4B; --bad:#B83227; --warn:#B7791F;
+  --head:"Barlow Condensed","Arial Narrow",sans-serif; --body:"Barlow",system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0F1A13; --surface:#162419; --ink:#E7EDE5; --muted:#98A89C; --line:#2A3B2F;
+  --field:#122A1B; --good:#5DBB82; --bad:#E2685C; --warn:#E3A73C;}}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--post);outline-offset:2px}
+
+/* Scoreboard header: the one loud element */
+.board{background:var(--field);color:#F4F1E4;padding:20px 20px 0}
+.board-inner{max-width:1080px;margin:0 auto}
+.board h1{font:700 2.4rem/1 var(--head);margin:0;letter-spacing:.01em}
+.board .sub{color:#B9C7BC;font-size:.95rem;margin:6px 0 16px}
+.score{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end;padding-bottom:16px}
+.score .num{font:700 3.2rem/1 var(--head);color:var(--post);font-variant-numeric:tabular-nums}
+.score .lbl{font-size:.85rem;color:#B9C7BC}
+nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav button{background:none;border:0;border-bottom:4px solid transparent;color:#C9D5CB;
+  padding:10px 14px;font:600 1.1rem var(--head);cursor:pointer;white-space:nowrap}
+nav button[aria-selected=true]{color:#fff;border-color:var(--post)}
+
+main{max-width:1080px;margin:0 auto;padding:24px 20px 64px}
+section[hidden]{display:none}
+h2{font:700 1.6rem/1.1 var(--head);margin:0 0 4px}
+.lede{color:var(--muted);margin:0 0 18px;max-width:70ch}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:16px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);align-items:baseline;flex-wrap:wrap}
+.row:first-child{border-top:0}
+.pname{font-weight:600}
+.meta{color:var(--muted);font-size:.9rem}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;padding:1px 8px;border-radius:99px;border:1px solid currentColor;margin-left:6px}
+.t-good{color:var(--good)} .t-bad{color:var(--bad)} .t-warn{color:var(--warn)}
+.big{font:700 1.5rem var(--head);font-variant-numeric:tabular-nums}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.grid2{grid-template-columns:1fr}.score .num{font-size:2.5rem}}
+.swap{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.swap .arrow{color:var(--muted);font-weight:600}
+.empty{color:var(--muted);font-style:italic}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+.tablewrap{overflow-x:auto}
+th,td{text-align:left;padding:7px 8px;border-top:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;color:var(--muted);border-top:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Analyzer */
+.picker{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.picker label{display:flex;gap:10px;padding:8px 10px;border-top:1px solid var(--line);cursor:pointer;align-items:baseline}
+.picker label:first-child{border-top:0}
+.picker label:has(input:checked){background:color-mix(in srgb,var(--post) 18%,transparent)}
+.picker .v{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+select{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin:6px 0 10px;width:100%}
+.verdict{font:700 2rem/1 var(--head)}
+.btn{background:var(--field);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer}
+.btn.secondary{background:none;color:var(--ink);border:1px solid var(--line)}
+.notes p{margin:6px 0}
+#copied{color:var(--good);margin-left:10px}
+.err{background:var(--surface);border-left:4px solid var(--bad);padding:16px}
+@media (prefers-reduced-motion:no-preference){.score .num{transition:color .3s}}
+</style>
+</head>
+<body>
+<header class="board">
+  <div class="board-inner">
+    <h1 id="title">Front Office</h1>
+    <div class="sub" id="sub">Loading league data</div>
+    <div class="score" id="score"></div>
+    <nav role="tablist" id="tabs">
+      <button role="tab" data-tab="today" aria-selected="true">This week</button>
+      <button role="tab" data-tab="waivers">Waivers</button>
+      <button role="tab" data-tab="trades">Trade ideas</button>
+      <button role="tab" data-tab="analyzer">Trade analyzer</button>
+      <button role="tab" data-tab="news">Movers &amp; news</button>
+      <button role="tab" data-tab="league">League</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="today"></section>
+  <section id="waivers" hidden></section>
+  <section id="trades" hidden></section>
+  <section id="analyzer" hidden></section>
+  <section id="news" hidden></section>
+  <section id="league" hidden></section>
+</main>
+
+<script>
+const ELIG={QB:["QB"],RB:["RB"],WR:["WR"],TE:["TE"],K:["K"],"D/ST":["D/ST"],"RB/WR":["RB","WR"],
+  "WR/TE":["WR","TE"],"RB/WR/TE":["RB","WR","TE"],OP:["QB","RB","WR","TE"]};
+let D, SLOTS;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sign=(n,d=1)=>(n>0?"+":"")+Number(n).toFixed(d);
+const STATUS={QUESTIONABLE:["Q","t-warn"],DOUBTFUL:["D","t-bad"],OUT:["Out","t-bad"],INJURY_RESERVE:["IR","t-bad"],IR:["IR","t-bad"],SUSPENSION:["Susp","t-bad"]};
+function tags(p){let h="";const s=STATUS[p.status];if(s)h+=`<span class="tag ${s[1]}">${s[0]}</span>`;
+  if(p.bye)h+=`<span class="tag t-warn">Bye</span>`;if(p.locked)h+=`<span class="tag">Locked</span>`;return h}
+const pline=p=>`<span class="pname">${esc(p.name)}</span>${tags(p)} <span class="meta">${esc(p.pos)} · ${esc(p.nfl)}</span>`;
+
+function optimal(players,key){
+  const pool=[...players].sort((a,b)=>b[key]-a[key]);const used=new Set();const lineup=[];
+  Object.keys(SLOTS).filter(s=>ELIG[s]).sort((a,b)=>ELIG[a].length-ELIG[b].length).forEach(s=>{
+    for(let i=0;i<SLOTS[s];i++){const p=pool.find(p=>!used.has(p.id)&&ELIG[s].includes(p.pos));
+      if(p){used.add(p.id);lineup.push({slot:s,p})}}});
+  return {total:lineup.reduce((a,x)=>a+x.p[key],0),lineup};
+}
+function verdict(ld,vd,vs){const pct=vs?vd/vs:0;
+  if(ld>=1&&pct>=-.15)return["Accept","t-good"];if(ld>=.3&&pct>=-.25)return["Lean accept","t-good"];
+  if(ld<=-.5&&pct>=.2)return["Value play","t-warn"];if(ld<=-.5||pct<=-.3)return["Decline","t-bad"];return["Neutral","t-warn"]}
+
+function tabs(){document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  document.querySelectorAll("main section").forEach(s=>s.hidden=s.id!==b.dataset.tab);
+  history.replaceState(null,"","#"+b.dataset.tab)});
+  const h=location.hash.slice(1);const b=document.querySelector(`nav button[data-tab="${h}"]`);if(b)b.click()}
+
+function header(){const m=D.meta;const me=D.teams.find(t=>t.id===m.team_id);
+  $("#title").textContent=m.team;document.title=m.team+" · Front Office";
+  $("#sub").textContent=`${m.league} · Week ${m.week} · ${m.scoring} · updated ${m.updated} UTC`;
+  let h=`<div><div class="num">${esc(me.record)}</div><div class="lbl">Record, seed ${me.standing}</div></div>`;
+  if(D.matchup)h+=`<div><div class="num">${D.matchup.my_proj}–${D.matchup.opp_proj}</div><div class="lbl">Projected vs ${esc(D.matchup.opponent)}</div></div>`;
+  h+=`<div><div class="num">${sign(D.lineup.gain)}</div><div class="lbl">Points left on your bench</div></div>`;
+  $("#score").innerHTML=h}
+
+function today(){const L=D.lineup;let h=`<h2>This week</h2><p class="lede">Lineup moves use this week's projections and current injury designations. Re-check after Sunday-morning inactives.</p>`;
+  h+=`<div class="block"><strong>Lineup changes</strong>`;
+  if(!L.moves.length)h+=`<p class="empty">Your lineup is already optimal.</p>`;
+  L.moves.forEach(m=>{h+=`<div class="row swap"><div>${m.start?"Start "+pline(m.start)+` <span class="meta">${m.start.week} pts</span>`:""}</div><div class="arrow">over</div><div>${m.sit?pline(m.sit)+` <span class="meta">${m.sit.week} pts</span>`:""}</div></div>`});
+  h+=`</div>`;
+  if(L.alerts.length||L.ir_candidates.length){h+=`<div class="block"><strong>Starter alerts</strong>`;
+    L.alerts.forEach(p=>h+=`<div class="row"><div>${pline(p)}</div><div class="meta">${esc(p.injury||p.practice||"")}</div></div>`);
+    L.ir_candidates.forEach(p=>h+=`<div class="row"><div>${pline(p)}</div><div class="meta">On IR designation: move to an IR slot to free a roster spot</div></div>`);
+    h+=`</div>`}
+  h+=`<div class="block"><strong>Optimal lineup</strong>`;
+  L.optimal.forEach(p=>h+=`<div class="row"><div><span class="meta">${esc(p.slot)}</span> ${pline(p)}</div><div class="big">${p.week}</div></div>`);
+  $("#today").innerHTML=h+`</div>`}
+
+function waivers(){let h=`<h2>Waivers</h2><p class="lede">Ranked by how much each player improves your best starting lineup. "Stream" means a this-week play only. Adds 48h is Sleeper's league-wide add count.</p><div class="block">`;
+  if(!D.waivers.length)h+=`<p class="empty">No free agent improves your lineup right now.</p>`;
+  D.waivers.forEach(w=>{h+=`<div class="row"><div>${w.kind==="Add"?"Add":"Stream"} ${pline(w.player)}<div class="meta">ROS ${w.player.ros}/g · this week ${w.player.week} · owned ${w.player.owned}% · adds 48h ${w.player.adds48.toLocaleString()}</div>${w.drop?`<div class="meta">Drop ${esc(w.drop.name)} (${esc(w.drop.pos)})</div>`:""}</div><div><span class="big t-good">${sign(w.ros_gain)}</span> <span class="meta">ppg ROS</span><br><span class="meta">${sign(w.week_gain)} this week</span></div></div>`});
+  $("#waivers").innerHTML=h+`</div>`}
+
+function names(a){return a.map(p=>esc(p.name)).join(", ")}
+function trades(){let h=`<h2>Trade ideas</h2><p class="lede">Deals where your starting lineup improves, the other manager gets fair market value, and their lineup holds up. Open any idea in the analyzer for the full breakdown.</p>`;
+  if(!D.trades.length)h+=`<div class="block empty">No clean trade fits found today.</div>`;
+  D.trades.forEach((t,i)=>{const v=verdict(t.a_lineup,t.a_value,t.v_send);
+    h+=`<div class="block"><div class="row"><div><strong>With ${esc(t.partner)}</strong> <span class="tag ${v[1]}">${v[0]}</span></div><button class="btn secondary" data-idea="${i}">Analyze</button></div>
+    <div class="grid2"><div><div class="meta">You send</div>${t.send.map(pline).join("<br>")}</div><div><div class="meta">You get</div>${t.get.map(pline).join("<br>")}</div></div>
+    <p class="meta">Your lineup ${sign(t.a_lineup)} ppg · their lineup ${sign(t.b_lineup)} ppg · market value ${sign(t.a_value,0)}</p></div>`});
+  $("#trades").innerHTML=h;
+  document.querySelectorAll("[data-idea]").forEach(b=>b.onclick=()=>{const t=D.trades[b.dataset.idea];
+    loadAnalyzer(D.meta.team_id,t.partner_id,t.send.map(p=>p.id),t.get.map(p=>p.id));
+    document.querySelector('nav button[data-tab="analyzer"]').click();window.scrollTo(0,0)})}
+
+function teamOpts(sel){return D.teams.map(t=>`<option value="${t.id}" ${t.id===sel?"selected":""}>${esc(t.name)}</option>`).join("")}
+function picker(team,side,checked){return [...team.players].sort((a,b)=>b.value-a.value).map(p=>
+  `<label><input type="checkbox" data-side="${side}" value="${p.id}" ${checked.includes(p.id)?"checked":""}> <span>${pline(p)}</span><span class="v">${p.value}</span></label>`).join("")}
+function loadAnalyzer(aId=D.meta.team_id,bId=null,sendIds=[],getIds=[]){
+  bId=bId??D.teams.find(t=>t.id!==aId).id;const A=D.teams.find(t=>t.id==aId),B=D.teams.find(t=>t.id==bId);
+  $("#analyzer").innerHTML=`<h2>Trade analyzer</h2><p class="lede">Check any offer, yours or one sent to you. Values are market trade values; lineup impact is rest-of-season points per game in your best starting lineup.</p>
+  <div class="grid2"><div class="block"><label class="meta">Team A sends</label><select id="selA">${teamOpts(A.id)}</select><div class="picker">${picker(A,"a",sendIds)}</div></div>
+  <div class="block"><label class="meta">Team B sends</label><select id="selB">${teamOpts(B.id)}</select><div class="picker">${picker(B,"b",getIds)}</div></div></div>
+  <div class="block" id="result"><p class="empty">Pick players on both sides to see the verdict.</p></div>`;
+  $("#selA").onchange=e=>loadAnalyzer(+e.target.value,+$("#selB").value);
+  $("#selB").onchange=e=>loadAnalyzer(+$("#selA").value,+e.target.value);
+  document.querySelectorAll("#analyzer input").forEach(i=>i.onchange=()=>analyze(A,B));
+  analyze(A,B)}
+
+function analyze(A,B){
+  const s=[...document.querySelectorAll('input[data-side=a]:checked')].map(i=>i.value);
+  const g=[...document.querySelectorAll('input[data-side=b]:checked')].map(i=>i.value);
+  if(!s.length||!g.length){$("#result").innerHTML=`<p class="empty">Pick players on both sides to see the verdict.</p>`;return}
+  const send=A.players.filter(p=>s.includes(p.id)),get=B.players.filter(p=>g.includes(p.id));
+  const newA=A.players.filter(p=>!s.includes(p.id)).concat(get),newB=B.players.filter(p=>!g.includes(p.id)).concat(send);
+  const a0=optimal(A.players,"ros"),a1=optimal(newA,"ros"),b0=optimal(B.players,"ros"),b1=optimal(newB,"ros");
+  const ad=a1.total-a0.total,bd=b1.total-b0.total;
+  const vs=send.reduce((x,p)=>x+p.value,0),vg=get.reduce((x,p)=>x+p.value,0),vd=vg-vs;
+  const v=verdict(ad,vd,vs);
+  const ids=l=>new Set(l.lineup.map(x=>x.p.id));const in1=ids(a1),in0=ids(a0);
+  const enter=newA.filter(p=>in1.has(p.id)&&!in0.has(p.id)),leave=A.players.filter(p=>in0.has(p.id)&&!in1.has(p.id));
+  const notes=[];
+  notes.push(`${esc(A.name)}'s starting lineup ${ad>=0?"improves":"drops"} by ${Math.abs(ad).toFixed(1)} points per game rest of season.`);
+  if(enter.length||leave.length)notes.push(`Lineup change: ${enter.length?names(enter)+" step"+(enter.length===1?"s":"")+" in":"no one new starts"}${leave.length?"; "+names(leave)+" leave"+(leave.length===1?"s":"")+" the lineup":""}.`);
+  else notes.push(`Neither side's incoming players crack ${esc(A.name)}'s starting lineup, so this is mostly a depth move.`);
+  notes.push(`Market value: ${esc(A.name)} gives ${vs.toLocaleString()} and gets ${vg.toLocaleString()} (${vs?sign(vd/vs*100,0)+"%":"n/a"}).`);
+  const hurt=get.filter(p=>STATUS[p.status]);if(hurt.length)notes.push(`Injury risk incoming: ${hurt.map(p=>esc(p.name)+" ("+STATUS[p.status][0]+")").join(", ")}.`);
+  if(s.length!==g.length)notes.push(`${s.length>g.length?esc(B.name):esc(A.name)} would need to drop ${Math.abs(s.length-g.length)} player(s) to make roster room.`);
+  notes.push(bd>=-.25?`${esc(B.name)}'s lineup ${bd>=0?"improves "+bd.toFixed(1):"is roughly unchanged"}, so they have a reason to say yes.`:
+    `${esc(B.name)}'s lineup drops ${Math.abs(bd).toFixed(1)} ppg, so expect pushback unless they want the value.`);
+  $("#result").innerHTML=`<div class="row"><div><div class="meta">Verdict for ${esc(A.name)}</div><div class="verdict ${v[1]}">${v[0]}</div></div>
+  <div><div class="big">${sign(ad)}</div><div class="meta">ppg for ${esc(A.name)}</div></div><div><div class="big">${sign(bd)}</div><div class="meta">ppg for ${esc(B.name)}</div></div></div>
+  <div class="notes">${notes.map(n=>`<p>${n}</p>`).join("")}</div>
+  <p><button class="btn" id="copy">Copy for Claude</button><span id="copied" role="status"></span></p>
+  <p class="meta">Paste into your Fantasy Football Claude project for full commentary with the latest news.</p>`;
+  $("#copy").onclick=()=>{const fmt=p=>`${p.name} (${p.pos}, ${p.nfl}${p.status!=="ACTIVE"&&p.status!=="NORMAL"?", "+p.status:""}) val ${p.value}, ROS ${p.ros}/g`;
+    const txt=`Analyze this fantasy football trade for ${A.name}. Check the latest news on every player involved before answering.\n\n${A.name} sends: ${send.map(fmt).join("; ")}\n${B.name} sends: ${get.map(fmt).join("; ")}\n\nEngine read: ${v[0]}. ${A.name} lineup ${sign(ad)} ppg ROS, ${B.name} lineup ${sign(bd)} ppg, market value ${sign(vd,0)}.\n\n${A.name} roster: ${A.players.map(fmt).join("; ")}\n\n${B.name} roster: ${B.players.map(fmt).join("; ")}\n\nScoring: ${D.meta.scoring}. Week ${D.meta.week}. Give me a verdict, the reasoning, and a counteroffer if it should be improved.`;
+    navigator.clipboard.writeText(txt).then(()=>$("#copied").textContent="Copied")}}
+
+function news(){let h=`<h2>Movers &amp; news</h2><p class="lede">Week-over-week market value changes for rostered players, plus any NFL team changes the engine detected. Ask Claude why a value moved.</p>`;
+  h+=`<div class="block"><strong>NFL team changes</strong>`;
+  if(!D.situations.length)h+=`<p class="empty">No team changes since the last update.</p>`;
+  D.situations.forEach(s=>h+=`<div class="row"><div><span class="pname">${esc(s.player)}</span> <span class="meta">${esc(s.pos)} · ${esc(s.from)} to ${esc(s.to)}</span><div class="meta">Crowds: ${esc(s.new_teammates.join(", ")||"no rostered players")}</div><div class="meta">Opens up: ${esc(s.old_teammates.join(", ")||"no rostered players")}</div></div></div>`);
+  h+=`</div><div class="block"><strong>Value movers</strong>`;
+  if(!D.movers.length)h+=`<p class="empty">Movers appear after the engine has a few days of history.</p>`;
+  D.movers.forEach(r=>h+=`<div class="row"><div>${pline(r.player)}<div class="meta">${esc(r.player.owner)} · ${r.old} to ${r.new} since ${esc(r.since)}</div></div><div class="big ${r.pct>0?"t-good":"t-bad"}">${sign(r.pct,0)}%</div></div>`);
+  const me=D.teams.find(t=>t.id===D.meta.team_id);
+  h+=`</div><div class="block"><strong>Your roster health</strong>`;
+  const hurt=me.players.filter(p=>STATUS[p.status]||p.injury);
+  if(!hurt.length)h+=`<p class="empty">No injury designations on your roster.</p>`;
+  hurt.forEach(p=>h+=`<div class="row"><div>${pline(p)}</div><div class="meta">${esc(p.injury||"")}${p.practice?" · practice: "+esc(p.practice):""}</div></div>`);
+  $("#news").innerHTML=h+`</div>`}
+
+function league(){let h=`<h2>League</h2><p class="lede">Every roster, sorted by trade value. Starters marked by slot.</p>`;
+  [...D.teams].sort((a,b)=>(a.standing||99)-(b.standing||99)).forEach(t=>{
+    const r=optimal(t.players,"ros").total;
+    h+=`<details class="block" ${t.id===D.meta.team_id?"open":""}><summary><strong>${t.standing}. ${esc(t.name)}</strong> <span class="meta">${esc(t.record)} · PF ${t.pf} · lineup strength ${r.toFixed(1)} ppg</span></summary>
+    <div class="tablewrap"><table><thead><tr><th>Slot</th><th>Player</th><th class="n">Week</th><th class="n">ROS/g</th><th class="n">Value</th></tr></thead><tbody>
+    ${[...t.players].sort((a,b)=>b.value-a.value).map(p=>`<tr><td class="meta">${esc(p.slot)}</td><td>${pline(p)}</td><td class="n">${p.week}</td><td class="n">${p.ros}</td><td class="n">${p.value}</td></tr>`).join("")}
+    </tbody></table></div></details>`});
+  $("#league").innerHTML=h}
+
+fetch("data.json?"+Date.now()).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
+  D=d;SLOTS=d.slots;header();today();waivers();trades();loadAnalyzer();news();league();tabs()})
+.catch(()=>{$("#sub").textContent="";$("#today").innerHTML=`<div class="err"><strong>No league data yet.</strong><p>Run the "Update front office" workflow from the Actions tab in GitHub. The page fills in a minute after it finishes.</p></div>`});
+</script>
+</body>
+</html>
