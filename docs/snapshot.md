@@ -1,5 +1,5 @@
 # Fantasy Front Office briefing: Get Shucked
-League: The Gridiron Throne | Week 8 | Updated 2026-11-01 16:12 UTC
+League: The Gridiron Throne | Week 8 | Updated 2026-11-01 17:13 UTC
 Scoring: PPR | Starting slots: QB x1, RB x2, WR x2, TE x1, D/ST x1, K x1, RB/WR/TE x1 | Bench 7
 Values: 'val' = market trade value (FantasyCalc, injury-adjusted). 'ROS' = projected points per game rest of season. 'wk' = this week's projection.
 
@@ -22,25 +22,24 @@ vs big nosh: projected 121.5 to 104.9
 
 ## Lineup recommendations (gain 0.6 pts)
 - Start Jordan Addison (9.8) over Jaylen Waddle (9.2)
-- Alert: George Pickens (WR, DAL) | wk 11.9 | ROS 15.2/g | val 3370 | STATUS QUESTIONABLE | last games 28.0/13.3/15.7
 - Alert: Jaylen Waddle (WR, DEN) | wk 9.2 | ROS 10.0/g | val 1095 | STATUS QUESTIONABLE | last games 4.8/6.4/8.8
 
 ## Waiver targets
-- Stream this week: Cooper Kupp (WR, SEA) | wk 8.1 | ROS 6.4/g | val 547 | adds 48h 38472 | drop Seth McGowan | ROS gain 0.0 | wk gain 0.0
+- Stream this week: Cooper Kupp (WR, SEA) | wk 8.1 | ROS 6.4/g | val 547 | adds 48h 45444 | drop Seth McGowan | ROS gain 0.0 | wk gain 0.0
 
 ## Trade ideas (engine-generated)
 - [Accept] with Big Al: send Bijan Robinson for Zay Flowers, Ollie Gordon II | my lineup +2.9 ppg | their lineup -0.2 ppg | value -1400
-- [Lean accept] with Big Al: send Breece Hall for Ollie Gordon II | my lineup +2.7 ppg | their lineup +0.0 ppg | value -627
+- [Accept] with Big Al: send Breece Hall for Ollie Gordon II | my lineup +2.7 ppg | their lineup +0.0 ppg | value -117
 - [Accept] with Big Al: send Jordan Mason, Jaylen Waddle for Ollie Gordon II | my lineup +2.7 ppg | their lineup +0.0 ppg | value -88
 - [Accept] with Get Kirked: send Mike Evans for Jameson Williams, C.J. Stroud | my lineup +1.8 ppg | their lineup -0.9 ppg | value -21
 - [Lean accept] with Team Underdog: send Jaylen Waddle, Tyler Shough for Jalen Coker | my lineup +1.3 ppg | their lineup -1.0 ppg | value -362
+- [Accept] with Team Underdog: send Breece Hall for Jalen Coker, Brenton Strange | my lineup +1.3 ppg | their lineup -1.0 ppg | value -245
 - [Lean accept] with F5 Bertnados: send Mike Evans, Dak Prescott for Joe Burrow | my lineup +1.2 ppg | their lineup +0.1 ppg | value -990
 - [Accept] with F5 Bertnados: send Mike Evans, Jordan Mason for Joe Burrow | my lineup +1.2 ppg | their lineup +0.1 ppg | value -517
 - [Accept] with F5 Bertnados: send Mike Evans, Tyler Shough for Joe Burrow | my lineup +1.2 ppg | their lineup +0.1 ppg | value -17
 - [Accept] with Team Drake: send Blake Corum for Omar Cooper Jr. | my lineup +1.0 ppg | their lineup -0.9 ppg | value -155
-- [Lean accept] with Kelce's McBride: send Breece Hall, Mike Evans for Christian Watson | my lineup +1.0 ppg | their lineup -1.0 ppg | value -1197
-- [Lean accept] with Delbane Longschlong: send Colston Loveland for Sam LaPorta | my lineup +0.9 ppg | their lineup -0.9 ppg | value -302
-- [Lean accept] with Get Kirked: send Mike Evans for Jameson Williams | my lineup +0.9 ppg | their lineup -0.9 ppg | value -578
+- [Accept] with Kelce's McBride: send Mike Evans, Breece Hall for Christian Watson | my lineup +1.0 ppg | their lineup -1.0 ppg | value -687
+- [Lean accept] with Team Underdog: send George Pickens, Jordan Mason for Tee Higgins | my lineup +0.9 ppg | their lineup -0.9 ppg | value -418
 
 ## Value movers (rostered players)
 - Jonah Coleman (Kelce's McBride): 316 -> 1343 (+325%) since 2026-10-25
@@ -89,7 +88,7 @@ vs big nosh: projected 121.5 to 104.9
 - [BE] Malik Nabers (WR, NYG) | wk 0.0 | ROS 19.4/g | val 5968 | last games 29.1/28.5/18.1 | BYE
 - [RB] Jaylen Warren (RB, PIT) | wk 15.9 | ROS 17.5/g | val 4021 | last games 36.8/9.8/16.7
 - [WR] Rashee Rice (WR, KC) | wk 12.7 | ROS 9.3/g | val 2460 | last games 0.0/0.0/0.0
-- [WR] DJ Moore (WR, BUF) | wk 11.6 | ROS 9.5/g | val 1969 | STATUS QUESTIONABLE - Shoulder - AC Joint Sprain | last games 2.7/0.0/0.0
+- [WR] DJ Moore (WR, BUF) | wk 13.6 | ROS 9.8/g | val 2030 | last games 2.7/0.0/0.0
 - [BE] Cam Skattebo (RB, NYG) | wk 0.0 | ROS 10.6/g | val 1767 | STATUS QUESTIONABLE | last games 7.1/0.0/19.1 | BYE
 - [QB] Jayden Daniels (QB, WSH) | wk 22.8 | ROS 20.6/g | val 1691 | last games 0.0/32.3/21.0
 - [TE] Travis Kelce (TE, KC) | wk 9.3 | ROS 9.7/g | val 1237 | last games 3.5/9.3/8.4
@@ -128,10 +127,10 @@ vs big nosh: projected 121.5 to 104.9
 - [BE] Isaiah Likely (TE, NYG) | wk 0.0 | ROS 15.4/g | val 2302 | last games 32.4/23.9/3.2 | BYE
 - [WR] DK Metcalf (WR, PIT) | wk 12.2 | ROS 11.9/g | val 1290 | last games 5.3/20.3/7.6
 - [RB/WR/TE] KC Concepcion (WR, CLE) | wk 10.2 | ROS 10.5/g | val 895 | last games 1.5/7.9/23.2
-- [TE] Dalton Kincaid (TE, BUF) | wk 7.6 | ROS 8.4/g | val 840 | STATUS QUESTIONABLE | last games 1.7/3.7/10.8
+- [TE] Dalton Kincaid (TE, BUF) | wk 8.9 | ROS 8.6/g | val 867 | last games 1.7/3.7/10.8
 - [BE] Kyle Monangai (RB, CHI) | wk 0.0 | ROS 7.2/g | val 752 | STATUS OUT | last games 0.0/0.0/0.0
 - [BE] Justice Hill (RB, BAL) | wk 6.6 | ROS 6.1/g | val 733 | last games 9.8/3.9/6.3
-- [BE] Jakobi Meyers (WR, JAX) | wk 9.2 | ROS 10.4/g | val 538 | STATUS QUESTIONABLE - Hamstring | last games 6.3/5.7/13.3
+- [BE] Jakobi Meyers (WR, JAX) | wk 10.8 | ROS 10.7/g | val 555 | last games 6.3/5.7/13.3
 - [BE] Jordyn Tyson (WR, NO) | wk 0.0 | ROS 3.3/g | val 447 | STATUS INJURY_RESERVE | last games 0.0/0.0/0.0 | BYE
 - [BE] Xavier Worthy (WR, KC) | wk 8.2 | ROS 9.1/g | val 406 | last games 11.0/14.3/4.1
 - [K] Brandon Aubrey (K, DAL) | wk 10.0 | ROS 8.5/g | val 163 | last games 5.0/1.0/14.0
@@ -243,14 +242,14 @@ vs big nosh: projected 121.5 to 104.9
 - [BE] Pat Freiermuth (TE, PIT) | wk 8.5 | ROS 9.3/g | val 202 | last games 21.5/3.1/4.0
 - [BE] Mark Andrews (TE, BAL) | wk 9.6 | ROS 7.2/g | val 189 | last games 4.8/1.4/5.3
 - [K] Harrison Butker (K, KC) | wk 9.0 | ROS 8.6/g | val 166 | last games 6.0/12.0/3.0
-- [BE] Kenny Gainwell (RB, TB) | wk 6.7 | ROS 7.0/g | val 80 | STATUS QUESTIONABLE | last games 5.8/3.4/8.8
+- [BE] Kenny Gainwell (RB, TB) | wk 7.9 | ROS 7.2/g | val 83 | last games 5.8/3.4/8.8
 - [D/ST] Rams D/ST (D/ST, LAR) | wk 7.6 | ROS 3.2/g | val 37 | last games -1.0/2.0/1.0
 
 ### Get Shucked (3-4)
 - [RB] Bijan Robinson (RB, ATL) | wk 20.3 | ROS 18.8/g | val 9583 | last games 15.8/7.3/17.2
-- [WR] George Pickens (WR, DAL) | wk 11.9 | ROS 15.2/g | val 3370 | STATUS QUESTIONABLE | last games 28.0/13.3/15.7
-- [BE] Breece Hall (RB, NYJ) | wk 0.0 | ROS 9.9/g | val 2908 | STATUS QUESTIONABLE | last games 0.0/0.0/0.0
+- [WR] George Pickens (WR, DAL) | wk 14.0 | ROS 15.7/g | val 3475 | last games 28.0/13.3/15.7
 - [BE] Mike Evans (WR, SF) | wk 0.0 | ROS 13.8/g | val 2563 | STATUS QUESTIONABLE - Achilles Tendinitis | last games 26.3/12.4/0.0 | BYE
+- [BE] Breece Hall (RB, NYJ) | wk 0.0 | ROS 8.1/g | val 2398 | STATUS OUT | last games 0.0/0.0/0.0
 - [TE] Colston Loveland (TE, CHI) | wk 11.8 | ROS 12.1/g | val 2305 | last games 3.9/18.5/19.9 | PROTECTED: Scored 19.9 last game
 - [QB] Dak Prescott (QB, DAL) | wk 19.5 | ROS 17.3/g | val 1747 | last games 12.6/11.0/23.3 | PROTECTED: Scored 23.3 last game
 - [BE] Jordan Mason (RB, MIN) | wk 9.5 | ROS 7.6/g | val 1274 | last games 0.0/0.0/6.8
@@ -284,42 +283,42 @@ vs big nosh: projected 121.5 to 104.9
 
 ## Top free agents
 - Ty Johnson (RB, BUF) | wk 6.1 | ROS 6.4/g | val 787 | owned 2.28% | adds 48h 0
-- Roschon Johnson (RB, CHI) | wk 6.8 | ROS 5.8/g | val 679 | owned 10.42% | adds 48h 0
-- Jahan Dotson (WR, ATL) | wk 7.4 | ROS 7.3/g | val 666 | owned 2.79% | adds 48h 0
-- Isaiah Davis (RB, NYJ) | wk 7.3 | ROS 5.5/g | val 627 | owned 1.92% | adds 48h 0
-- Xavier Hutchinson (WR, HOU) | wk 0.0 | ROS 6.9/g | val 612 | owned 1.91% | adds 48h 0
+- Roschon Johnson (RB, CHI) | wk 6.8 | ROS 5.8/g | val 679 | owned 10.37% | adds 48h 0
+- Jahan Dotson (WR, ATL) | wk 7.4 | ROS 7.3/g | val 666 | owned 2.78% | adds 48h 0
+- Isaiah Davis (RB, NYJ) | wk 7.3 | ROS 5.5/g | val 627 | owned 1.95% | adds 48h 0
+- Xavier Hutchinson (WR, HOU) | wk 0.0 | ROS 6.9/g | val 612 | owned 1.9% | adds 48h 0
 - Savion Williams (WR, GB) | wk 6.8 | ROS 6.8/g | val 599 | owned 1.47% | adds 48h 0
-- Tre' Harris (WR, LAC) | wk 5.9 | ROS 6.7/g | val 586 | owned 2.38% | adds 48h 0
-- George Holani (RB, SEA) | wk 0.0 | ROS 5.1/g | val 560 | owned 5.13% | adds 48h 0
-- Rashod Bateman (WR, BAL) | wk 6.5 | ROS 6.4/g | val 547 | owned 10.52% | adds 48h 0
-- Cooper Kupp (WR, SEA) | wk 8.1 | ROS 6.4/g | val 547 | owned 8.81% | adds 48h 38472
-- Ted Hurst III (WR, TB) | wk 10.1 | ROS 6.3/g | val 534 | owned 5.67% | adds 48h 0
+- Tre' Harris (WR, LAC) | wk 5.9 | ROS 6.7/g | val 586 | owned 2.37% | adds 48h 0
+- George Holani (RB, SEA) | wk 0.0 | ROS 5.1/g | val 560 | owned 5.07% | adds 48h 0
+- Rashod Bateman (WR, BAL) | wk 6.5 | ROS 6.4/g | val 547 | owned 10.5% | adds 48h 0
+- Cooper Kupp (WR, SEA) | wk 8.1 | ROS 6.4/g | val 547 | owned 8.83% | adds 48h 45444
+- Ted Hurst III (WR, TB) | wk 10.1 | ROS 6.3/g | val 534 | owned 5.78% | adds 48h 0
 - Isaac TeSlaa (WR, DET) | wk 5.9 | ROS 6.0/g | val 496 | owned 1.86% | adds 48h 0
-- Quentin Johnston (WR, LAC) | wk 6.1 | ROS 5.9/g | val 484 | owned 25.41% | adds 48h 0
+- Quentin Johnston (WR, LAC) | wk 6.1 | ROS 5.9/g | val 484 | owned 25.36% | adds 48h 0
 - Chris Bell (WR, MIA) | wk 7.1 | ROS 5.8/g | val 472 | owned 1.53% | adds 48h 0
-- Dameon Pierce (RB, PHI) | wk 0.0 | ROS 4.5/g | val 464 | STATUS INJURY_RESERVE | owned 22.56% | adds 48h 0
-- Rashid Shaheed (WR, SEA) | wk 0.0 | ROS 5.7/g | val 460 | STATUS OUT | owned 25.69% | adds 48h 0
-- Juwan Johnson (TE, NO) | wk 0.0 | ROS 8.3/g | val 455 | owned 51.27% | adds 48h 0
-- Antonio Williams (WR, WSH) | wk 8.2 | ROS 7.9/g | val 453 | owned 15.95% | adds 48h 0
-- Efton Chism III (WR, NE) | wk 9.1 | ROS 5.5/g | val 436 | owned 2.51% | adds 48h 0
-- Tez Johnson (WR, TB) | wk 10.2 | ROS 5.4/g | val 424 | owned 6.39% | adds 48h 0
-- Dohnte Meyers (WR, CIN) | wk 6.0 | ROS 5.4/g | val 424 | owned 2.16% | adds 48h 0
-- Keon Coleman (WR, BUF) | wk 6.7 | ROS 8.0/g | val 421 | owned 28.36% | adds 48h 0
+- Dameon Pierce (RB, PHI) | wk 0.0 | ROS 4.5/g | val 464 | STATUS INJURY_RESERVE | owned 22.25% | adds 48h 0
+- Rashid Shaheed (WR, SEA) | wk 0.0 | ROS 5.7/g | val 460 | STATUS OUT | owned 25.59% | adds 48h 0
+- Juwan Johnson (TE, NO) | wk 0.0 | ROS 8.3/g | val 455 | owned 51.11% | adds 48h 0
+- Antonio Williams (WR, WSH) | wk 8.2 | ROS 7.9/g | val 453 | owned 16.02% | adds 48h 0
+- Efton Chism III (WR, NE) | wk 9.1 | ROS 5.5/g | val 436 | owned 2.54% | adds 48h 0
+- Tez Johnson (WR, TB) | wk 10.2 | ROS 5.4/g | val 424 | owned 6.9% | adds 48h 0
+- Dohnte Meyers (WR, CIN) | wk 6.0 | ROS 5.4/g | val 424 | owned 2.15% | adds 48h 0
+- Keon Coleman (WR, BUF) | wk 6.7 | ROS 8.0/g | val 421 | owned 28.35% | adds 48h 0
 - Pierre Strong Jr. (RB, GB) | wk 0.0 | ROS 4.2/g | val 418 | owned 4.07% | adds 48h 0
-- Jalen Nailor (WR, LV) | wk 7.2 | ROS 5.3/g | val 412 | owned 3.35% | adds 48h 0
-- Wan'Dale Robinson (WR, TEN) | wk 9.9 | ROS 9.0/g | val 404 | owned 54.82% | adds 48h 0
+- Jalen Nailor (WR, LV) | wk 7.2 | ROS 5.3/g | val 412 | owned 3.34% | adds 48h 0
+- Wan'Dale Robinson (WR, TEN) | wk 9.9 | ROS 9.0/g | val 404 | owned 54.85% | adds 48h 0
 - Greg Dulcich (TE, MIA) | wk 7.8 | ROS 7.4/g | val 383 | owned 1.37% | adds 48h 0
-- Eli Raridon (TE, NE) | wk 8.0 | ROS 7.2/g | val 367 | owned 1.69% | adds 48h 0
-- Colby Parkinson (TE, LAR) | wk 0.0 | ROS 7.1/g | val 359 | STATUS QUESTIONABLE - Ribs | owned 5.59% | adds 48h 0
-- Bo Nix (QB, DEN) | wk 13.9 | ROS 15.1/g | val 355 | owned 56.05% | adds 48h 0
-- De'Von Achane (RB, MIA) | wk 0.0 | ROS 3.7/g | val 346 | STATUS INJURY_RESERVE | owned 30.28% | adds 48h 0
-- Sam Darnold (QB, SEA) | wk 14.5 | ROS 13.6/g | val 344 | owned 30.21% | adds 48h 0
-- Darnell Washington (TE, PIT) | wk 6.5 | ROS 6.9/g | val 344 | owned 4.75% | adds 48h 0
-- Kayshon Boutte (WR, HOU) | wk 0.0 | ROS 4.7/g | val 344 | owned 3.27% | adds 48h 0
-- Ja'Kobi Lane (WR, BAL) | wk 8.0 | ROS 6.6/g | val 329 | owned 13.29% | adds 48h 0
-- Kyle Williams (WR, NE) | wk 8.0 | ROS 4.5/g | val 322 | owned 0.88% | adds 48h 0
-- Tyler Goodson (RB, DAL) | wk 5.2 | ROS 3.5/g | val 318 | owned 0.98% | adds 48h 0
-- Konata Mumpfield (WR, LAR) | wk 5.1 | ROS 4.4/g | val 312 | owned 3.11% | adds 48h 0
+- Eli Raridon (TE, NE) | wk 8.0 | ROS 7.2/g | val 367 | owned 1.72% | adds 48h 0
+- Colby Parkinson (TE, LAR) | wk 0.0 | ROS 7.1/g | val 359 | STATUS QUESTIONABLE - Ribs | owned 5.42% | adds 48h 0
+- Bo Nix (QB, DEN) | wk 13.9 | ROS 15.1/g | val 355 | owned 55.98% | adds 48h 0
+- De'Von Achane (RB, MIA) | wk 0.0 | ROS 3.7/g | val 346 | STATUS INJURY_RESERVE | owned 30.24% | adds 48h 0
+- Sam Darnold (QB, SEA) | wk 14.5 | ROS 13.6/g | val 344 | owned 30.18% | adds 48h 0
+- Darnell Washington (TE, PIT) | wk 6.5 | ROS 6.9/g | val 344 | owned 4.73% | adds 48h 0
+- Kayshon Boutte (WR, HOU) | wk 0.0 | ROS 4.7/g | val 344 | owned 3.26% | adds 48h 0
+- Ja'Kobi Lane (WR, BAL) | wk 8.0 | ROS 6.6/g | val 329 | owned 13.32% | adds 48h 0
+- Kyle Williams (WR, NE) | wk 8.0 | ROS 4.5/g | val 322 | owned 0.89% | adds 48h 0
+- Tyler Goodson (RB, DAL) | wk 5.2 | ROS 3.5/g | val 318 | owned 1.01% | adds 48h 0
+- Konata Mumpfield (WR, LAR) | wk 5.1 | ROS 4.4/g | val 312 | owned 3.07% | adds 48h 0
 - Demarcus Robinson (WR, SF) | wk 0.0 | ROS 4.4/g | val 312 | STATUS INJURY_RESERVE - Ankle | owned 0.86% | adds 48h 0
-- Cade Otton (TE, TB) | wk 7.4 | ROS 6.4/g | val 308 | owned 2.87% | adds 48h 0
-- Corey Kiner (RB, NE) | wk 9.1 | ROS 3.4/g | val 305 | owned 4.78% | adds 48h 0
+- Cade Otton (TE, TB) | wk 7.4 | ROS 6.4/g | val 308 | owned 2.86% | adds 48h 0
+- Corey Kiner (RB, NE) | wk 9.1 | ROS 3.4/g | val 305 | owned 5.69% | adds 48h 0
